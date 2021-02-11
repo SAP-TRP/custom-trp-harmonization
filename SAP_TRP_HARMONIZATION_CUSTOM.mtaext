@@ -17,4 +17,4 @@ resources:
         
   - name: trp4_sch_jobs
     parameters:
-      service-name: TRP_SCH_JOBS
+      service-name: <trp4_sch_jobs>
