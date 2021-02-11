@@ -57,7 +57,7 @@ app.get('/schedulePRHarmonizedJob', async function(req,res){
         res.send('PR data extraction job ran successfully');
     }catch(e){
         console.log(e);
-        res.send(`PR data extraction job failed with error: ${e.message}`);
+        res.error(`PR data extraction job failed with error: ${e.message}`);
     }	
 });
 
@@ -76,7 +76,7 @@ app.get('/scheduleSDHarmonizedJob', async function(req,res){
         res.send('SD data extraction job ran successfully');
     }catch(e){
         console.log(e);
-        res.send(`SD data extraction job failed with error: ${e.message}`);
+        res.error(`SD data extraction job failed with error: ${e.message}`);
     }	
 });
 
