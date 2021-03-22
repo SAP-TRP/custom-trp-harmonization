@@ -80,6 +80,25 @@ app.get('/scheduleSDHarmonizedJob', async function(req,res){
     }	
 });
 
+app.get('/scheduleRVHarmonizedJob', async function(req,res){
+    let hanaOptions = xsenv.getServices({
+        hana: {
+            tag: "trp4_rv_db"
+        }
+    });
+    const conn = await getHanaClient(hanaOptions.hana, "trp4_rv_db");
+
+    const procName = "sap.tm.trp.db.booking.harmonization::p_rp_cargo_extr_controller";
+    let sqlQuery = 'call "'+procName+'"()';
+    try{	
+        await conn.exec(sqlQuery);
+        res.send('RV data extraction job ran successfully');
+    }catch(e){
+        console.log(e);
+        res.error(`RV data extraction job failed with error: ${e.message}`);
+    }	
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`listening on port ${port}`);

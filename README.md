@@ -8,6 +8,7 @@ This note contains a multi-target application (MTA) project that has an nodejs m
 
 - `/schedulePRHarmonizedJob`
 - `/scheduleSDHarmonizedJob`
+- `/scheduleRVHarmonizedJob`
 
 To build and deploy this project, perform the following steps:
 
@@ -50,6 +51,10 @@ To build and deploy this project, perform the following steps:
     `<trp4_hdi_pr_db>` with service name corresponding to trp4_hdi_pr_db in mtaext of core
 
     `<pr_schema>` with schema name corresponding to trp4_hdi_pr_db in mtaext of core
+
+    `<trp4_hdi_rv_db>` with service name corresponding to trp4_hdi_rv_db in mtaext of core
+
+    `<rv_schema>` with schema name corresponding to trp4_hdi_rv_db in mtaext of core
 
 15. Deploy the application as follows:
 
