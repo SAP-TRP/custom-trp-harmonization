@@ -4,3 +4,8 @@ GET http://localhost:4000/scheduleSDHarmonizedJob HTTP/1.1
 ### PR extraction job
 GET http://localhost:4000/schedulePRHarmonizedJob HTTP/1.1
 
+### RV extraction job
+GET http://localhost:4000/scheduleRVHarmonizedJob HTTP/1.1
+
+
+

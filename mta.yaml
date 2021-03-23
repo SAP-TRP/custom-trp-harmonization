@@ -8,6 +8,7 @@ modules:
     requires:
       - name: trp4_hdi_sd_db
       - name: trp4_hdi_pr_db
+      - name: trp4_hdi_rv_db
       - name: trp4_sch_jobs
 
 resources:
@@ -22,6 +23,12 @@ resources:
     parameters:
       service-tags:
         - trp4_pr_db
+
+  - name: trp4_hdi_rv_db
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-tags:
+        - trp4_rv_db
 
   - name: trp4_sch_jobs
     type: com.sap.xs.job-scheduler
