@@ -46,7 +46,7 @@ To build and deploy this project, perform the following steps:
 
 11. Right click on the MTAR file genereated and choose deploy option and select 'Deploy to XS Advanced'.
     In the pop-up windown, verify the organization, space name to which you want to deploy.
-    Select the `SAP_TRP_HARMONIZATION_CUSTOM.mtaext` file in MTA extendion Descriptor dropdown and click on the deploy button.
+    Select the `SAP_TRP_HARMONIZATION_CUSTOM.mtaext` file in MTA extension Descriptor dropdown and click on the deploy button.
 
 
 ## Known Issues
