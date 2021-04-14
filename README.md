@@ -28,21 +28,9 @@ To build and deploy this project, perform the following steps:
 
 8. Right click on the main project. Choose `Build -> Build`.
 
-9. To view the MTAR file generated, expand the folder mta_archives, which is under your current project folder.
+9. To view the MTAR file generated, expand the folder mta_archives, which is in the same level as your current project folder.
 
-10. Right click on the MTAR file. Select Export.
-
-11. Once the MTAR file is exported, deploy this application to the space where you are deploying the SAP Transportation Resource Planning 4.0 application.
-
-12. To deploy the application, log in to the system with the command line interface as follows:
-
-    > xs login -a <url> -u <user> -p <password>
-
-13. Navigate to the space where you want to deploy the application as follows:
-
-    > xs t -s <space>
-
-14. Open `SAP_TRP_HARMONIZATION_CUSTOM.mtaext` that is available in the cloned github code and replace following:
+10. Open `SAP_TRP_HARMONIZATION_CUSTOM.mtaext` that is available in the cloned github code and replace following:
 
     `<trp4_hdi_sd_db>` with service name corresponding to trp4_hdi_sd_db in mtaext of core
 
@@ -56,12 +44,10 @@ To build and deploy this project, perform the following steps:
 
     `<rv_schema>` with schema name corresponding to trp4_hdi_rv_db in mtaext of core
 
-15. Deploy the application as follows:
+11. Right click on the MTAR file genereated and choose deploy option and select 'Deploy to XS Advanced'.
+    In the pop-up windown, verify the organization, space name to which you want to deploy.
+    Select the `SAP_TRP_HARMONIZATION_CUSTOM.mtaext` file in MTA extendion Descriptor dropdown and click on the deploy button.
 
-    > xs deploy <custom-trp-harmonization_1.0.0>.mtar -e SAP_TRP_HARMONIZATION_CUSTOM.mtaext
-
-    Here `custom-trp-harmonization_1.0.0.mtar` is the MTAR file you exported in step 10, and `SAP_TRP_HDI_HARMONIZATION_CUSTOM.mtaext` is the deployment descriptor file provided in the github.
-    You may update the service-name and schema in the deployment descriptor file as per your naming convention.
 
 ## Known Issues
 
