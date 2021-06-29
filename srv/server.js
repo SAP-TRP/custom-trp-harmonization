@@ -10,6 +10,7 @@ const
     } = require('express'),
     app = new express(),
     port = process.env.PORT || 4000;
+
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false
@@ -89,11 +90,12 @@ async function updateJobRunLogs(jobDetails, status, msg) {
         jsUpdateRes = await axios.put(jobDetails.jsURL(), {
             success: status,
             message: msg
-        },{
+        },
+        {
 	        auth: {
 	          username: creds.user,
 	          password: creds.password
-	    }
+            }
         }
         );
         
