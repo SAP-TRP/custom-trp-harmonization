@@ -14,8 +14,28 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: false
 }));
+
 // Load environment variables
 xsenv.loadEnv();
+
+// get HANA services
+const
+        hanaOptionsSD = xsenv.getServices({
+            hana: {
+                tag: "trp4_sd_db"
+            }
+        }),
+        hanaOptionsPR = xsenv.getServices({
+            hana: {
+                tag: "trp4_pr_db"
+            }
+        }),
+        hanaOptionsRV = xsenv.getServices({
+            hana: {
+                tag: "trp4_rv_db"
+            }
+        });
+
 /**
  *
  * @param {*} hanaConfig
@@ -77,7 +97,7 @@ async function updateJobRunLogs(jobDetails, status, msg) {
         }
         );
         
-        return jsUpdate;
+        return jsUpdateRes;
 	}
 	catch(error)
 	{
@@ -87,17 +107,10 @@ async function updateJobRunLogs(jobDetails, status, msg) {
 
 // API to run PR harmonization extraction procedure
 app.get('/schedulePRHarmonizedJob', async function (req, res) {
-    let
-        hanaOptions = xsenv.getServices({
-        hana: {
-            tag: "trp4_pr_db"
-        }
-    });
-    
+   
     const
-        conn = await getHanaClient(hanaOptions.hana, "trp4_pr_db"),
-        procName = "sap.tm.trp.db.pickupreturn.harmonization::p_pr_extr_controller",
-        sqlQuery = 'call "' + procName + '"()';
+        conn = await getHanaClient(hanaOptionsPR.hana, "trp4_pr_db"),
+        sqlQuery = 'call "sap.tm.trp.db.pickupreturn.harmonization::p_pr_extr_controller"()';
         
         // STEP-1:  Extract the 5 headers as constants
     let
@@ -121,21 +134,15 @@ app.get('/schedulePRHarmonizedJob', async function (req, res) {
     catch (err) 
     {
         console.error(`>>> [JS Update Job ERROR] Job Scheduler ID: ${jobDetails.jsJobID} / Run ID: ${jobDetails.jsRunID} due to ${err.message}`);
-        await updateJobRunLogs(jobDetails, false, "PR data extraction job failed with error");
+        await updateJobRunLogs(jobDetails, false, `PR data extraction job failed with error : ${err.message}`);
     }
 });
 
 app.get('/scheduleSDHarmonizedJob', async function (req, res) {
 	
 	const
-        hanaOptions = xsenv.getServices({
-            hana: {
-                tag: "trp4_sd_db"
-            }
-        }),
-        conn = await getHanaClient(hanaOptions.hana, "trp4_sd_db"),
-        procName = "sap.tm.trp.db.supplydemand.instant.model::pipline_data_extraction_model",
-        sqlQuery = 'call "' + procName + '"()';
+        conn = await getHanaClient(hanaOptionsSD.hana, "trp4_sd_db"),
+        sqlQuery = 'call "sap.tm.trp.db.supplydemand.instant.model::pipline_data_extraction_model"()';
         
 	let
         jobDetails = Object.create({
@@ -158,20 +165,15 @@ app.get('/scheduleSDHarmonizedJob', async function (req, res) {
     catch (err) 
     {
     	console.error(`>>> [JS Update Job ERROR] Job Scheduler ID: ${jobDetails.jsJobID} / Run ID: ${jobDetails.jsRunID} due to ${err.message}`);
-        await updateJobRunLogs(jobDetails, false, "SD data extraction job failed with error");
+        await updateJobRunLogs(jobDetails, false, `SD data extraction job failed with error: ${err.message}`);
     }
 });
 
 app.get('/scheduleRVHarmonizedJob', async function (req, res) {
-    const
-        hanaOptions = xsenv.getServices({
-            hana: {
-                tag: "trp4_rv_db"
-            }
-        }),
-        conn = await getHanaClient(hanaOptions.hana, "trp4_rv_db"),
-        procName = "sap.tm.trp.db.booking.harmonization::p_rp_cargo_extr_controller",
-        sqlQuery = 'call "' + procName + '"()';
+	
+	const
+        conn = await getHanaClient(hanaOptionsRV.hana, "trp4_rv_db"),
+        sqlQuery = 'call "sap.tm.trp.db.booking.harmonization::p_rp_cargo_extr_controller"()';
     
     let
         jobDetails = Object.create({
@@ -194,7 +196,7 @@ app.get('/scheduleRVHarmonizedJob', async function (req, res) {
     catch (err)
     {
         console.error(`>>> [JS Update Job ERROR] Job Scheduler ID: ${jobDetails.jsJobID} / Run ID: ${jobDetails.jsRunID} due to ${err.message}`);
-        await updateJobRunLogs(jobDetails, false, "RV data extraction job failed with error");
+        await updateJobRunLogs(jobDetails, false, `RV data extraction job failed with error: ${err.message}`);
     }
 });
 // Start the server
