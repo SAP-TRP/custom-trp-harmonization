@@ -104,7 +104,7 @@ async function updateJobRunLogs(jobDetails, status, msg) {
 	catch(error)
 	{
 	    console.log(error);
-	}
+	}		
 }
 
 // API to run PR harmonization extraction procedure
@@ -138,6 +138,10 @@ app.get('/schedulePRHarmonizedJob', async function (req, res) {
         console.error(`>>> [JS Update Job ERROR] Job Scheduler ID: ${jobDetails.jsJobID} / Run ID: ${jobDetails.jsRunID} due to ${err.message}`);
         await updateJobRunLogs(jobDetails, false, `PR data extraction job failed with error : ${err.message}`);
     }
+    finally
+    {
+	conn.close();
+    }
 });
 
 app.get('/scheduleSDHarmonizedJob', async function (req, res) {
@@ -169,6 +173,10 @@ app.get('/scheduleSDHarmonizedJob', async function (req, res) {
     	console.error(`>>> [JS Update Job ERROR] Job Scheduler ID: ${jobDetails.jsJobID} / Run ID: ${jobDetails.jsRunID} due to ${err.message}`);
         await updateJobRunLogs(jobDetails, false, `SD data extraction job failed with error: ${err.message}`);
     }
+    finally
+    {
+	conn.close();
+    }
 });
 
 app.get('/scheduleRVHarmonizedJob', async function (req, res) {
@@ -199,6 +207,10 @@ app.get('/scheduleRVHarmonizedJob', async function (req, res) {
     {
         console.error(`>>> [JS Update Job ERROR] Job Scheduler ID: ${jobDetails.jsJobID} / Run ID: ${jobDetails.jsRunID} due to ${err.message}`);
         await updateJobRunLogs(jobDetails, false, `RV data extraction job failed with error: ${err.message}`);
+    }
+    finally
+    {
+	conn.close();
     }
 });
 // Start the server
