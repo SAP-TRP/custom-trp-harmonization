@@ -1,4 +1,4 @@
-# SAP Transportation Resource Planning 4.0 - Develop User-Defined MTA Application for SD/PR harmonization APIs
+# SAP Transportation Resource Planning 4.0 - Develop User-Defined MTA Application for SD/PR harmonization APIs 
 
 ## How to deploy the application
 
